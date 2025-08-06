@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271743736165",
+    "project_id": "loci-6720d",
+    "storage_bucket": "loci-6720d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271743736165:android:63a9e430f1727ce559a98c",
+        "android_client_info": {
+          "package_name": "com.example.loci"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCebebOZX09i8DOTuzrvhA0l_oMHIheNSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
