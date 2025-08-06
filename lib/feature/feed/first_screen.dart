@@ -5,8 +5,6 @@ import 'package:loci/data/services/auth_service.dart';
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key, });
 
-  
-
   @override
   State<FirstScreen> createState() => _FirstScreenState();
 }

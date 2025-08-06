@@ -33,17 +33,17 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     const Duration animDuration = Duration(milliseconds: 300);
 
-    const BorderRadius borderRadius = BorderRadius.all(Radius.circular(16));
+    const BorderRadius borderRadius = BorderRadius.all(Radius.circular(8));
 
     final Color filledColor = switch (enabled) {
-      true => color ?? Color.fromARGB(255, 255, 255, 255),
+      true => color ?? Theme.of(context).colorScheme.primary,
       false => Theme.of(context).disabledColor,
     };
 
     final Widget progressIndicator = SizedBox.square(
       dimension: 23,
       child: CircularProgressIndicator(
-        color: Color.fromARGB(255, 128, 98, 248),
+        color: Theme.of(context).colorScheme.secondary,
         strokeWidth: 2,
       ),
     );
@@ -71,7 +71,7 @@ class SecondaryButton extends StatelessWidget {
                   borderRadius: borderRadius,
                   color: filledColor,
                 ),
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 child: DefaultTextStyle(
                   style: TextStyle(),
                   child: IconTheme(

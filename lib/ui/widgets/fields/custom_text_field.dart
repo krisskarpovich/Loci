@@ -26,17 +26,25 @@ class CustomTextField extends StatelessWidget {
       onSaved: onSaved,
       keyboardType: keyboardType,
       obscureText: obscureText,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.secondary),
       decoration: InputDecoration(
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.surface,
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: const BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(
+            width: 0.0,
+            color: Theme.of(context).colorScheme.surface,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(
+            width: 0.0,
+            color: Theme.of(context).colorScheme.surface,
+          ),
         ),
       ),
     );

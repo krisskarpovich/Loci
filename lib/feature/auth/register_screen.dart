@@ -4,14 +4,14 @@ import 'package:loci/data/services/auth_service.dart';
 import 'package:loci/ui/widgets/fields/custom_text_field.dart';
 import 'package:loci/ui/widgets/buttons/secondary_button.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -33,69 +33,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (!mounted) return;
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      errorMassage = e.message ?? 'FirebaseAuthException';
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 128, 98, 248),
-      appBar: AppBar(title: Text('Registration')),
+      appBar: AppBar(title: Text('Зарегистрироваться')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  CustomTextField(
-                    labelText: 'Email',
-                    validator: (value) => value == null || !value.contains('@')
-                        ? 'Неверный email'
-                        : null,
-                    onSaved: (value) => controllerEmail.text = value ?? '',
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    labelText: 'Пароль',
-                    obscureText: true,
-                    onSaved: (value) => controllerPassword.text = value ?? '',
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Введите пароль'
-                        : null,
-                  ),
-                  const SizedBox(height: 16),
 
-                  const SizedBox(height: 20),
-                  SecondaryButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        register();
-                      }
-                    },
-                    text: 'Зарегистрироваться',
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CustomTextField(
+                  labelText: 'Email',
+                  validator: (value) => value == null || !value.contains('@')
+                      ? errorMassage
+                      : null,
+                  onSaved: (value) => controllerEmail.text = value ?? '',
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  labelText: 'Пароль',
+                  obscureText: true,
+                  onSaved: (value) => controllerPassword.text = value ?? '',
+                  validator: (value) =>
+                      value == null || value.isEmpty ? errorMassage : null,
+                ),
+                const SizedBox(height: 16),
+
+                const SizedBox(height: 20),
+                SecondaryButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                      register();
+                    }
+                  },
+                  text: 'Зарегистрироваться',
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
-  }
-}
-
-class LoadingPage extends StatelessWidget {
-  const LoadingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
