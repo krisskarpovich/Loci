@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:loci/feature/account/account_screen.dart';
+import 'package:loci/feature/account/settings_screen.dart';
 import 'package:loci/feature/auth/register_screen.dart';
 import 'package:loci/feature/main_navigation_shell.dart';
 import 'package:loci/feature/feed/first_screen.dart';
@@ -31,7 +33,7 @@ final router = GoRouter(
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'first',
+                  path: '/first',
                   name: 'first',
                   builder: (context, state) => const FirstScreen(),
                 ),
@@ -40,7 +42,7 @@ final router = GoRouter(
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'search',
+                  path: '/search',
                   name: 'search',
                   builder: (context, state) => const FirstScreen(),
                 ),
@@ -49,28 +51,36 @@ final router = GoRouter(
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'add',
+                  path: '/add',
                   name: 'add',
-                  builder: (context, state) => const FirstScreen(),
+                  builder: (context, state) => const AccountScreen(),
                 ),
               ],
             ),
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'map',
+                  path: '/map',
                   name: 'map',
-                  builder: (context, state) => const FirstScreen(),
+                  builder: (context, state) => const AccountScreen(),
                 ),
               ],
             ),
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'account',
+                  path: '/account',
                   name: 'account',
-                  builder: (context, state) => const FirstScreen(),
+                  builder: (context, state) => const AccountScreen(),
+                  routes: [
+                    GoRoute(
+                      path: 'set',
+                      name: 'set',
+                      builder: (context, state) => const SettingsScreen(),
+                    ),
+                  ],
                 ),
+
               ],
             ),
           ],
