@@ -1,38 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loci/data/services/auth_service.dart';
+import 'package:loci/feature/auth/cubit/auth_cubit.dart';
 import 'package:loci/ui/pages/app_loading_page.dart';
 
 class InitScreen extends StatelessWidget {
-  const InitScreen({super.key, this.pageIfNotConnected});
-
-  final Widget? pageIfNotConnected;
+  const InitScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: authService,
-      builder: (context, authService, child) {
-        return StreamBuilder(
-          stream: authService.authStateChanges,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const AppLoadingPage();
-            } else {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (snapshot.hasData) {
-                  context.go('/first');
-                } else {
-                  context.go('/login');
-                }
-              });
-              return const SizedBox.shrink();
-            }
-          },
-        );
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthenticatedAuthState) {
+          context.go('/first');
+        } else if (state is UnauthenticatedAuthState) {
+          context.go('/login');
+        }
       },
+      child: const AppLoadingPage(),
     );
   }
 }
-
