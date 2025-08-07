@@ -13,7 +13,7 @@ class InitScreen extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthenticatedAuthState) {
-          context.go('/first');
+          context.go('/home');
         } else if (state is UnauthenticatedAuthState) {
           context.go('/login');
         }

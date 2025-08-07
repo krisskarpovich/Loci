@@ -1,11 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:loci/feature/account/account_screen.dart';
 import 'package:loci/feature/account/settings_screen.dart';
+import 'package:loci/feature/add_post/add_post_screen.dart';
 import 'package:loci/feature/auth/register_screen.dart';
 import 'package:loci/feature/main_navigation_shell.dart';
-import 'package:loci/feature/feed/first_screen.dart';
+import 'package:loci/feature/home/home_screen.dart';
 import 'package:loci/feature/auth/login_screen.dart';
 import 'package:loci/feature/init_screen.dart';
+import 'package:loci/feature/map/map_screen.dart';
+import 'package:loci/feature/search/search_screen.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -33,9 +36,9 @@ final router = GoRouter(
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: '/first',
-                  name: 'first',
-                  builder: (context, state) => const FirstScreen(),
+                  path: '/home',
+                  name: 'home',
+                  builder: (context, state) => const HomeScreen(),
                 ),
               ],
             ),
@@ -44,7 +47,7 @@ final router = GoRouter(
                 GoRoute(
                   path: '/search',
                   name: 'search',
-                  builder: (context, state) => const FirstScreen(),
+                  builder: (context, state) => const SearchScreen(),
                 ),
               ],
             ),
@@ -53,7 +56,7 @@ final router = GoRouter(
                 GoRoute(
                   path: '/add',
                   name: 'add',
-                  builder: (context, state) => const AccountScreen(),
+                  builder: (context, state) => const AddPostScreen(),
                 ),
               ],
             ),
@@ -62,7 +65,7 @@ final router = GoRouter(
                 GoRoute(
                   path: '/map',
                   name: 'map',
-                  builder: (context, state) => const AccountScreen(),
+                  builder: (context, state) => const MapScreen(),
                 ),
               ],
             ),
@@ -80,7 +83,6 @@ final router = GoRouter(
                     ),
                   ],
                 ),
-
               ],
             ),
           ],
