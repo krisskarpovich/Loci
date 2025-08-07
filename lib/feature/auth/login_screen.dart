@@ -25,16 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void register() async {
+  void login() async {
     try {
-      await authService.value.createAccount(
+      await authService.value.signIn(
         email: controllerEmail.text,
         password: controllerPassword.text,
       );
       if (!mounted) return;
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      setState(() {
+        errorMassage = e.message ?? 'exception';
+      });
     }
   }
 
@@ -81,13 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           : null,
                     ),
                     const SizedBox(height: 16),
-
-                    const SizedBox(height: 20),
+                    Text(errorMassage, style: TextStyle(color: Colors.red)),
+                    const SizedBox(height: 8),
                     SecondaryButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           formKey.currentState!.save();
-                          //register();
+                          login();
                         }
                       },
                       text: 'Войти',
@@ -117,14 +119,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
-
-class LoadingPage extends StatelessWidget {
-  const LoadingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

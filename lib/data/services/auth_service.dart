@@ -10,7 +10,6 @@ class AuthService extends ChangeNotifier {
 
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
 
-
   Future<UserCredential> signIn({
     required String email,
     required String password,
@@ -24,11 +23,17 @@ class AuthService extends ChangeNotifier {
   Future<UserCredential> createAccount({
     required String email,
     required String password,
+    required String username,
   }) async {
-    return await firebaseAuth.createUserWithEmailAndPassword(
+    final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+
+    await userCredential.user!.updateDisplayName(username);
+    notifyListeners();
+
+    return userCredential;
   }
 
   Future<void> signOut() async {
@@ -70,4 +75,3 @@ class AuthService extends ChangeNotifier {
     await currentUser!.updatePassword(newPassword);
   }
 }
-

@@ -14,6 +14,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerName = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String errorMassage = '';
 
@@ -29,11 +30,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       await authService.value.createAccount(
         email: controllerEmail.text,
         password: controllerPassword.text,
+        username: controllerName.text,
       );
       if (!mounted) return;
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      errorMassage = e.message ?? 'FirebaseAuthException';
+      setState(() {
+        errorMassage = e.message ?? 'exception';
+      });
     }
   }
 
@@ -51,6 +55,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                CustomTextField(
+                  labelText: 'Имя',
+                  onSaved: (value) => controllerName.text = value ?? '',
+                  validator: (value) =>
+                      value == null || value.isEmpty ? 'Введите имя' : null,
+                ),
+                const SizedBox(height: 16),
                 CustomTextField(
                   labelText: 'Email',
                   validator: (value) => value == null || !value.contains('@')
