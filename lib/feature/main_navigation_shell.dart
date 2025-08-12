@@ -27,7 +27,6 @@ class MainNavigationShell extends StatelessWidget {
           CustomNavDestination(iconData: Icons.home_filled),
           CustomNavDestination(iconData: Icons.search),
           CustomNavDestination(iconData: Icons.edit_location_outlined),
-          CustomNavDestination(iconData: Icons.map),
           CustomNavDestination(iconData: Icons.account_circle),
         ],
       ),
