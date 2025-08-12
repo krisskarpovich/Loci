@@ -1,6 +1,6 @@
-import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:loci/domain/entities/place.dart';
 import 'package:loci/feature/account/account_screen.dart';
 import 'package:loci/feature/account/settings_screen.dart';
 import 'package:loci/feature/add_post/add_post_screen.dart';
@@ -55,35 +55,16 @@ final router = GoRouter(
                 GoRoute(
                   path: '/addReview',
                   name: 'addReview',
-                  builder: (context, state) {
-                    final placeName =
-                        state.uri.queryParameters['placeName'] ?? 'Unknown';
-                    final lat =
-                        double.tryParse(
-                          state.uri.queryParameters['lat'] ?? '',
-                        ) ??
-                        0.0;
-                    final lon =
-                        double.tryParse(
-                          state.uri.queryParameters['lon'] ?? '',
-                        ) ??
-                        0.0;
-                    return AddReviewScreen(
-                      placeName: placeName,
-                      latitude: lat,
-                      longitude: lon,
-                    );
+                 builder: (context, state) => switch (state.extra) {
+                    Place type => AddReviewScreen(place: type),
+                    _ => UnFoundPage(),
                   },
                 ),
                 GoRoute(
                   path: '/markers',
-                  builder: (context, state) {
-                    final data = state.extra as Map<String, dynamic>;
-                    return MapWithMarkers(
-                      initialCenter: data['initialCenter'] as LatLng,
-                      markers: data['markers'] as List<Marker>,
-                      place: data['place'] as Map<String, dynamic>,
-                    );
+                  builder: (context, state) => switch (state.extra) {
+                    Place type => MapWithMarkers(place: type),
+                    _ => UnFoundPage(),
                   },
                 ),
               ],
@@ -120,3 +101,12 @@ final router = GoRouter(
     ),
   ],
 );
+
+class UnFoundPage extends StatelessWidget {
+  const UnFoundPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text('Страница не найдена')));
+  }
+}

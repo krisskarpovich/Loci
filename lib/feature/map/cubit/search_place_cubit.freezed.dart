@@ -128,7 +128,7 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Map<String, dynamic>> places)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Place> places)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SearchPlaceInitial() when initial != null:
 return initial();case SearchPlaceLoading() when loading != null:
@@ -152,7 +152,7 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Map<String, dynamic>> places)  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Place> places)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case SearchPlaceInitial():
 return initial();case SearchPlaceLoading():
@@ -175,7 +175,7 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Map<String, dynamic>> places)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Place> places)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case SearchPlaceInitial() when initial != null:
 return initial();case SearchPlaceLoading() when loading != null:
@@ -257,11 +257,11 @@ String toString() {
 
 
 class SearchPlaceLoaded implements SearchPlaceState {
-  const SearchPlaceLoaded(final  List<Map<String, dynamic>> places): _places = places;
+  const SearchPlaceLoaded(final  List<Place> places): _places = places;
   
 
- final  List<Map<String, dynamic>> _places;
- List<Map<String, dynamic>> get places {
+ final  List<Place> _places;
+ List<Place> get places {
   if (_places is EqualUnmodifiableListView) return _places;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_places);
@@ -298,7 +298,7 @@ abstract mixin class $SearchPlaceLoadedCopyWith<$Res> implements $SearchPlaceSta
   factory $SearchPlaceLoadedCopyWith(SearchPlaceLoaded value, $Res Function(SearchPlaceLoaded) _then) = _$SearchPlaceLoadedCopyWithImpl;
 @useResult
 $Res call({
- List<Map<String, dynamic>> places
+ List<Place> places
 });
 
 
@@ -318,7 +318,7 @@ class _$SearchPlaceLoadedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? places = null,}) {
   return _then(SearchPlaceLoaded(
 null == places ? _self._places : places // ignore: cast_nullable_to_non_nullable
-as List<Map<String, dynamic>>,
+as List<Place>,
   ));
 }
 

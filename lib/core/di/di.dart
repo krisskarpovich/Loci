@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:loci/data/api/map_api.dart';
 import 'package:loci/data/api/review_api.dart';
 import 'package:loci/data/repositories/map_repository.dart';
 import 'package:loci/data/repositories/review_repository.dart';
@@ -10,7 +11,12 @@ import 'package:loci/feature/map/cubit/search_place_cubit.dart';
 final getIt = GetIt.instance;
 
 void setupDI() {
-  getIt.registerLazySingleton<MapRepository>(() => MapRepository());
+  getIt.registerLazySingleton<MapApi>(() => MapApi());
+
+  getIt.registerLazySingleton<MapRepository>(
+    () => MapRepository(api: getIt<MapApi>()),
+  );
+
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
   );

@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:loci/domain/entities/place.dart';
 
 class MapWithMarkers extends StatelessWidget {
-   MapWithMarkers({
-    super.key,
-    required this.initialCenter,
-    required this.markers,
-    required this.place,
-  });
-  final LatLng initialCenter;
-  final List<Marker> markers;
-  final Map<String, dynamic> place;
+  MapWithMarkers({super.key, required this.place});
+  final Place place;
   final MapController _mapController = MapController();
 
   @override
   Widget build(BuildContext context) {
+    final initialCenter = LatLng(place.lat ?? 0.0, place.lon ?? 0.0);
+
     return Stack(
       children: [
         FlutterMap(
@@ -27,7 +23,16 @@ class MapWithMarkers extends StatelessWidget {
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'com.example.loci',
             ),
-            MarkerLayer(markers: markers),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: initialCenter,
+                  width: 40,
+                  height: 40,
+                  child: const Icon(Icons.location_on, color: Colors.red),
+                ),
+              ],
+            ),
           ],
         ),
         Positioned(
@@ -44,63 +49,65 @@ class MapWithMarkers extends StatelessWidget {
           bottom: 0,
           left: 0,
           right: 0,
-          child: Card(
-            margin: EdgeInsets.zero,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    place['display_name'] ?? 'Неизвестно',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text('Координаты: ${place['lat']}, ${place['lon']}'),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            final lat = place['lat'];
-                            final lon = place['lon'];
-                            context.push('/reviews?lat=$lat&lon=$lon');
-                          },
-                          child: const Text('Посмотреть отзывы'),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            final placeName = Uri.encodeComponent(
-                              place['display_name'] ?? '',
-                            );
-                            final lat = place['lat'];
-                            final lon = place['lon'];
-                            context.push(
-                              '/addReview?placeName=$placeName&lat=$lat&lon=$lon',
-                            );
-                          },
-                          child: const Text('Добавить отзыв'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          child: PlaceCard(place: place),
         ),
       ],
+    );
+  }
+}
+
+class PlaceCard extends StatelessWidget {
+  const PlaceCard({super.key, required this.place});
+
+  final Place place;
+
+  @override
+  Widget build(BuildContext context) {
+    final lat = place.lat;
+    final lon = place.lon;
+
+    return Card(
+      margin: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              place.displayName ?? 'Неизвестно',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text('Координаты: $lat, $lon'),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.push('/reviews?lat=$lat&lon=$lon');
+                    },
+                    child: const Text('Посмотреть отзывы'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.push('/addReview', extra: place);
+                    },
+                    child: const Text('Добавить отзыв'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

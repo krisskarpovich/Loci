@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:loci/data/repositories/map_repository.dart';
+import 'package:loci/domain/entities/place.dart';
 import 'package:loci/feature/map/cubit/search_place_cubit.dart';
 
 class MapScreen extends StatelessWidget {
@@ -15,7 +15,7 @@ class MapScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SearchPlaceCubit>(
-          create: (context) => SearchPlaceCubit(MapRepository()),
+          create: (context) => SearchPlaceCubit(GetIt.I.get<MapRepository>()),
         ),
       ],
       child: const MinskSearchScreen(),
@@ -67,7 +67,7 @@ class SearchScreen extends StatelessWidget {
     required this.searchController,
   });
 
-  final List<Map<String, dynamic>> places;
+  final List<Place> places;
   final TextEditingController searchController;
 
   @override
@@ -108,42 +108,17 @@ class SearchScreen extends StatelessWidget {
                     return Card(
                       child: ListTile(
                         title: Text(
-                          place['display_name'] ?? 'Неизвестно',
+                          place.displayName ?? 'Неизвестно',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: Text(
-                          'Координаты: ${place['lat']}, ${place['lon']}',
+                          'Координаты: ${place.lat}, ${place.lon}',
                         ),
                         onTap: () {
                           final place = places[index];
 
-                          final lat =
-                              double.tryParse(place['lat'] ?? '') ?? 0.0;
-                          final lon =
-                              double.tryParse(place['lon'] ?? '') ?? 0.0;
-
-                          final initialCenter = LatLng(lat, lon);
-                          final markers = [
-                            Marker(
-                              point: initialCenter,
-                              width: 40,
-                              height: 40,
-                              child: const Icon(
-                                Icons.location_on,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ];
-
-                          context.push(
-                            '/markers',
-                            extra: {
-                              'initialCenter': initialCenter,
-                              'markers': markers,
-                              'place': place,
-                            },
-                          );
+                          context.push('/markers', extra: place);
                         },
                       ),
                     );

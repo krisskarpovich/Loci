@@ -5,45 +5,28 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loci/data/repositories/review_repository.dart';
+import 'package:loci/domain/entities/place.dart';
 import 'package:loci/domain/entities/review.dart';
 import 'package:loci/feature/map/cubit/cubit/add_review_cubit.dart';
 
 class AddReviewScreen extends StatelessWidget {
-  const AddReviewScreen({
-    super.key,
-    required this.placeName,
-    required this.latitude,
-    required this.longitude,
-  });
+  const AddReviewScreen({super.key, required this.place});
 
-  final String placeName;
-  final double latitude;
-  final double longitude;
-
+  final Place place;
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddReviewCubit>(
       create: (context) => AddReviewCubit(GetIt.I.get<ReviewRepository>()),
-      child: AddReviewView(
-        placeName: placeName,
-        latitude: latitude,
-        longitude: longitude,
-      ),
+      child: AddReviewView(place: place),
     );
   }
 }
 
 class AddReviewView extends StatefulWidget {
-  final String placeName;
-  final double latitude;
-  final double longitude;
+  final Place place;
 
-  const AddReviewView({
-    super.key,
-    required this.placeName,
-    required this.latitude,
-    required this.longitude,
-  });
+  const AddReviewView({super.key, required this.place});
 
   @override
   State<AddReviewView> createState() => _AddReviewViewState();
@@ -86,7 +69,10 @@ class _AddReviewViewState extends State<AddReviewView> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                Text(widget.placeName, style: const TextStyle(fontSize: 18)),
+                Text(
+                  widget.place.displayName ?? '',
+                  style: const TextStyle(fontSize: 18),
+                ),
                 const SizedBox(height: 10),
                 RatingView(
                   rating: _rating,
@@ -118,9 +104,9 @@ class _AddReviewViewState extends State<AddReviewView> {
                       : () {
                           context.read<AddReviewCubit>().saveReview(
                             review: Review(
-                              placeName: widget.placeName,
-                              latitude: widget.latitude,
-                              longitude: widget.longitude,
+                              placeName: widget.place.displayName ?? '',
+                              latitude: widget.place.lat,
+                              longitude: widget.place.lon,
                               reviewText: _reviewController.text,
                               rating: _rating,
                             ),

@@ -1,28 +1,14 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:loci/data/api/map_api.dart';
+import 'package:loci/data/mapper_extensions/place_mapper.dart';
+import 'package:loci/domain/entities/place.dart';
 
 class MapRepository {
-  final String baseUrl = 'https://nominatim.openstreetmap.org/search';
-  //TODO add mapApi
+  final MapApi api;
 
-  Future<List<Map<String, dynamic>>> searchPlaces(String query) async {
-    if (query.isEmpty) return [];
+  MapRepository({required this.api});
 
-    //TODO pagination
-    final url = Uri.parse(
-      '$baseUrl?q=$query+Минск&format=json&limit=100&countrycodes=by',
-    );
-
-    final response = await http.get(
-      url,
-      headers: {'User-Agent': 'flutter_app_example'},
-    );
-
-    if (response.statusCode == 200) {
-      final List data = json.decode(response.body);
-      return data.cast<Map<String, dynamic>>();
-    } else {
-      throw Exception('Failed to load places');
-    }
+  Future<List<Place>> searchPlaces(String query) async {
+    final placesDto = await api.searchPlaces(query);
+    return placesDto.map((place) => place.toDomain()).toList();
   }
 }
