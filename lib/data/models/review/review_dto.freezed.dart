@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReviewDto {
 
-@JsonKey(name: 'place_name') String get placeName;@JsonKey(name: 'latitude') double? get latitude;@JsonKey(name: 'longitude') double? get longitude;@JsonKey(name: 'review_text') String? get reviewText;@JsonKey(name: 'rating') double? get rating;
+ String get placeName; double? get latitude; double? get longitude; String? get reviewText; double? get rating;
 
   /// Serializes this ReviewDto to a JSON map.
   Map<String, dynamic> toJson();
@@ -108,7 +108,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'place_name')  String placeName, @JsonKey(name: 'latitude')  double? latitude, @JsonKey(name: 'longitude')  double? longitude, @JsonKey(name: 'review_text')  String? reviewText, @JsonKey(name: 'rating')  double? rating)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String placeName,  double? latitude,  double? longitude,  String? reviewText,  double? rating)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReviewDto() when $default != null:
 return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,_that.rating);case _:
@@ -129,7 +129,7 @@ return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'place_name')  String placeName, @JsonKey(name: 'latitude')  double? latitude, @JsonKey(name: 'longitude')  double? longitude, @JsonKey(name: 'review_text')  String? reviewText, @JsonKey(name: 'rating')  double? rating)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String placeName,  double? latitude,  double? longitude,  String? reviewText,  double? rating)  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDto():
 return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,_that.rating);case _:
@@ -149,7 +149,7 @@ return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'place_name')  String placeName, @JsonKey(name: 'latitude')  double? latitude, @JsonKey(name: 'longitude')  double? longitude, @JsonKey(name: 'review_text')  String? reviewText, @JsonKey(name: 'rating')  double? rating)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String placeName,  double? latitude,  double? longitude,  String? reviewText,  double? rating)?  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDto() when $default != null:
 return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,_that.rating);case _:
@@ -164,14 +164,14 @@ return $default(_that.placeName,_that.latitude,_that.longitude,_that.reviewText,
 @JsonSerializable()
 
 class _ReviewDto implements ReviewDto {
-  const _ReviewDto({@JsonKey(name: 'place_name') required this.placeName, @JsonKey(name: 'latitude') required this.latitude, @JsonKey(name: 'longitude') required this.longitude, @JsonKey(name: 'review_text') required this.reviewText, @JsonKey(name: 'rating') required this.rating});
+  const _ReviewDto({required this.placeName, required this.latitude, required this.longitude, required this.reviewText, required this.rating});
   factory _ReviewDto.fromJson(Map<String, dynamic> json) => _$ReviewDtoFromJson(json);
 
-@override@JsonKey(name: 'place_name') final  String placeName;
-@override@JsonKey(name: 'latitude') final  double? latitude;
-@override@JsonKey(name: 'longitude') final  double? longitude;
-@override@JsonKey(name: 'review_text') final  String? reviewText;
-@override@JsonKey(name: 'rating') final  double? rating;
+@override final  String placeName;
+@override final  double? latitude;
+@override final  double? longitude;
+@override final  String? reviewText;
+@override final  double? rating;
 
 
 @override

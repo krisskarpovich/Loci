@@ -7,11 +7,11 @@ part 'review_dto.g.dart';
 @freezedDto
 abstract class ReviewDto with _$ReviewDto {
   const factory ReviewDto({
-    @JsonKey(name: 'place_name') required String placeName,
-    @JsonKey(name: 'latitude') required double? latitude,
-    @JsonKey(name: 'longitude') required double? longitude,
-    @JsonKey(name: 'review_text') required String? reviewText,
-    @JsonKey(name: 'rating') required double? rating,
+    required String placeName,
+    required double? latitude,
+    required double? longitude,
+    required String? reviewText,
+    required double? rating,
   }) = _ReviewDto;
 
   factory ReviewDto.fromJson(Map<String, dynamic> json) =>
